@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayVault - Secure Payment</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #003087;
+    --light-blue: #009cde;
+    --yellow: #ffc439;
+    --white: #ffffff;
+    --gray: #f5f7fa;
+    --border: #cbd2d9;
+    --text: #2c2e2f;
+    --muted: #6c7378;
+    --red: #c0392b;
+    --green: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    background: var(--blue);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .logo-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 22px;
+    color: white; letter-spacing: -0.5px;
+  }
+  .logo-text span { color: var(--yellow); }
+  .nav-links { display: flex; gap: 20px; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .nav-btn {
+    background: var(--yellow); color: var(--blue) !important;
+    font-weight: 700 !important; padding: 8px 18px; border-radius: 20px;
+  }
+
+  /* ===== URL BAR DEMO ===== */
+  .url-demo {
+    background: #2a2a2a;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: monospace;
+    font-size: 13px;
+  }
+  .url-lock { font-size: 14px; }
+  .url-bar {
+    background: #3d3d3d;
+    border-radius: 4px;
+    padding: 4px 10px;
+    color: #e0e0e0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .url-suspicious { color: #ff6b6b; }
+  .url-normal { color: #aaa; }
+
+  /* ===== MAIN ===== */
+  .main {
+    max-width: 480px;
+    margin: 30px auto;
+    padding: 0 16px 60px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: var(--blue);
+    padding: 24px;
+    text-align: center;
+    color: white;
+  }
+  .card-header h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .card-header p { font-size: 13px; opacity: 0.8; }
+
+  /* Urgency bar */
+  .urgency-bar {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #856404;
+  }
+  .urgency-bar .countdown {
+    font-family: monospace;
+    font-weight: 800; font-size: 15px;
+    color: var(--red);
+  }
+
+  .card-body { padding: 24px; }
+
+  /* Amount */
+  .amount-box {
+    background: var(--gray);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .amount-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .amount-value {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 32px;
+    color: var(--blue);
+  }
+  .amount-to { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .amount-to strong { color: var(--text); }
+
+  /* Form */
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .form-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--light-blue); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Trust badges */
+  .trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: flex; align-items: center;
+    gap: 5px; font-size: 11px;
+    font-weight: 600; color: var(--muted);
+  }
+  .badge-icon { font-size: 16px; }
+
+  /* Submit */
+  .btn-pay {
+    width: 100%;
+    background: var(--yellow);
+    color: var(--blue);
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 17px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .btn-pay:hover { background: #e6b000; transform: translateY(-1px); }
+
+  /* Fine print */
+  .fine-print {
+    font-size: 10px; color: #aaa;
+    text-align: center; margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .card-footer {
+    background: var(--gray);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    text-align: center;
+    font-size: 12px; color: var(--muted);
+  }
+  .card-footer a { color: var(--light-blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- URL Bar -->
+<div class="url-demo">
+  <span class="url-lock">🔒</span>
+  <div class="url-bar">
+    <span class="url-suspicious">payvault-secure.com</span>
+    <span class="url-normal">/login/confirm-payment?session=a7f2&redirect=true</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<div class="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">💳</div>
+    <div class="logo-text">Pay<span>Vault</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#">Help</a>
+    <a href="#">Security</a>
+    <a href="#" class="nav-btn">Log In</a>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="card">
+    <div class="card-header">
+      <h2>Complete Your Payment</h2>
+      <p>Hello, <strong>Valued Customer</strong> — please confirm your payment below</p>
+    </div>
+
+    <!-- Urgency Bar -->
+    <div class="urgency-bar">
+      <span>⏰</span>
+      <span>Session expires in: <strong class="countdown" id="timer">09:47</strong></span>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Amount -->
+      <div class="amount-box">
+        <div class="amount-label">Amount Due</div>
+        <div class="amount-value">R 2,499.00</div>
+        <div class="amount-to">To: <strong>Online Services Ltd</strong></div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="your@email.com">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Card Number</label>
+        <input class="form-input" type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Expiry Date</label>
+          <input class="form-input" type="text" placeholder="MM/YY" maxlength="5">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV / PIN</label>
+          <input class="form-input" type="password" placeholder="CVV or PIN" maxlength="6">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ID Number / Password</label>
+        <input class="form-input" type="text" placeholder="Enter your ID or account password">
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Required for verification purposes</div>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="trust-badges">
+        <span class="badge"><span class="badge-icon">🔒</span> SSL Secured</span>
+        <span class="badge"><span class="badge-icon">✅</span> Verified</span>
+        <span class="badge"><span class="badge-icon">🛡️</span> Protected</span>
+      </div>
+
+      <button class="btn-pay">Pay Now R 2,499.00</button>
+
+      <div class="fine-print">
+        By clicking Pay Now you agree to our Terms & Conditions, authorize recurring monthly charges, and confirm your details may be shared with our partner network for verification.
+      </div>
+
+    </div>
+
+    <div class="card-footer">
+      Copywright © 2024 PayVault Secured Payments Inc. All rights reserved.<br>
+      <a href="#">Privacy Polcy</a> · <a href="#">Tearms of Service</a> · <a href="#">Contect Us</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  let seconds = 9 * 60 + 47;
+  const timerEl = document.getElementById('timer');
+  setInterval(() => {
+    if (seconds > 0) seconds--;
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    timerEl.textContent = `${m}:${s}`;
+    if (seconds < 60) timerEl.style.color = '#8e0000';
+  }, 1000);
+</script>
+
+</body>
+</html>
