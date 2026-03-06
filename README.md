@@ -107,7 +107,7 @@ phishsim/
 No installation required. Simply clone the repo and open any HTML file in a browser:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/phishsim.git
+git clone https://github.com/ftlcollective/phishsim.git
 cd phishsim
 open payvault-payment-STUDENT.html
 ```
