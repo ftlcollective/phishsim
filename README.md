@@ -107,9 +107,30 @@ phishsim/
 No installation required. Simply clone the repo and open any HTML file in a browser:
 
 ```bash
-git clone https://github.com/ftlcollective/phishsim.git
-cd phishsim
+windows:
+start payvault-payment-STUDENT.html
+start payvault-success-STUDENT.html
+start payvault-phishing-demo.html
+start payvault-success-demo.html
+
+mac:
 open payvault-payment-STUDENT.html
+open payvault-success-STUDENT.html
+open payvault-phishing-demo.html
+open payvault-success-demo.html
+
+xdg-open payvault-payment-STUDENT.html
+xdg-open payvault-success-STUDENT.html
+xdg-open payvault-phishing-demo.html
+xdg-open payvault-success-demo.html
+```
+
+Each command just opens that file in your default browser. You don't need to open them all at once — for the classroom exercise you'd typically just share the GitHub Pages links directly with students instead of running them locally.
+
+Since your repo will be on GitHub Pages, the easiest way to share is just sending the live URLs:
+```
+https://ftlcollective.github.io/phishsim/payvault-payment-STUDENT.html
+https://ftlcollective.github.io/phishsim/payvault-success-STUDENT.html
 ```
 
 Or deploy to GitHub Pages for easy classroom sharing via URL.
