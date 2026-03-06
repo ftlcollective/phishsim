@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayVault - Payment Successful</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #003087;
+    --light-blue: #009cde;
+    --yellow: #ffc439;
+    --white: #ffffff;
+    --gray: #f5f7fa;
+    --border: #cbd2d9;
+    --text: #2c2e2f;
+    --muted: #6c7378;
+    --red: #c0392b;
+    --green: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ===== URGENCY BAR ===== */
+  .urgency-bar {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #856404;
+  }
+  .urgency-bar .countdown {
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--red);
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    background: var(--blue);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .logo-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 22px;
+    color: white; letter-spacing: -0.5px;
+  }
+  .logo-text span { color: var(--yellow); }
+  .nav-links { display: flex; gap: 20px; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .nav-btn {
+    background: var(--yellow); color: var(--blue) !important;
+    font-weight: 700 !important; padding: 8px 18px; border-radius: 20px;
+  }
+
+  /* ===== MAIN ===== */
+  .main {
+    max-width: 520px;
+    margin: 30px auto;
+    padding: 0 16px 60px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  /* Success header */
+  .success-header {
+    background: var(--blue);
+    padding: 36px 24px 28px;
+    text-align: center;
+    color: white;
+  }
+  .checkmark-circle {
+    width: 72px; height: 72px;
+    background: var(--green);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 0 0 8px rgba(39,174,96,0.2);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .success-header h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .success-header p { font-size: 14px; opacity: 0.85; }
+
+  /* Body */
+  .card-body { padding: 28px 24px; }
+
+  /* Transaction box */
+  .transaction-box {
+    background: var(--gray);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .tx-row {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .tx-row:last-child { border-bottom: none; }
+  .tx-label { color: var(--muted); font-weight: 500; }
+  .tx-value { font-weight: 600; color: var(--text); text-align: right; }
+  .tx-amount {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 22px; color: var(--blue);
+  }
+  .tx-id { font-family: monospace; font-size: 13px; color: var(--muted); }
+
+  /* Next steps */
+  .next-steps { margin-bottom: 20px; }
+  .next-steps h4 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 15px;
+    margin-bottom: 12px; color: var(--text);
+  }
+  .step {
+    display: flex; gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 13px; line-height: 1.5; color: #444;
+  }
+  .step-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    width: 100%;
+    background: var(--yellow);
+    color: var(--blue);
+    border: none;
+    border-radius: 25px;
+    padding: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 16px;
+    cursor: pointer; margin-bottom: 10px;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: #e6b000; }
+  .btn-secondary {
+    width: 100%;
+    background: white;
+    color: var(--blue);
+    border: 2px solid var(--border);
+    border-radius: 25px;
+    padding: 13px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 15px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--light-blue); }
+
+  /* Survey bar */
+  .survey-bar {
+    background: #e8f4fd;
+    border: 1px solid #b3d9f5;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .survey-bar a { color: var(--light-blue); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+  /* Fine print */
+  .fine-print {
+    font-size: 10px; color: #aaa;
+    text-align: center; margin-top: 14px;
+    line-height: 1.7;
+  }
+
+  /* Footer */
+  .card-footer {
+    background: var(--gray);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    text-align: center;
+    font-size: 12px; color: var(--muted);
+  }
+  .card-footer a { color: var(--light-blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">💳</div>
+    <div class="logo-text">Pay<span>Vault</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#">Help</a>
+    <a href="#">Security</a>
+    <a href="#" class="nav-btn">My Account</a>
+  </div>
+</div>
+
+<!-- Urgency Bar -->
+<div class="urgency-bar">
+  <span>⏰</span>
+  <span>Session expires in: <strong class="countdown" id="timer">04:59</strong> — please save your confirmation before it expires</span>
+</div>
+
+<div class="main">
+  <div class="card">
+
+    <div class="success-header">
+      <div class="checkmark-circle">✓</div>
+      <h2>Payment Successful!</h2>
+      <p>Your transaction has been processed securely.</p>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Transaction details -->
+      <div class="transaction-box">
+        <div class="tx-row">
+          <span class="tx-label">Amount Paid</span>
+          <span class="tx-value tx-amount">R 2,499.00</span>
+        </div>
+        <div class="tx-row">
+          <span class="tx-label">Paid To</span>
+          <span class="tx-value">Online Services Ltd</span>
+        </div>
+        <div class="tx-row">
+          <span class="tx-label">Date & Time</span>
+          <span class="tx-value" id="txDate">—</span>
+        </div>
+        <div class="tx-row">
+          <span class="tx-label">Transaction ID</span>
+          <span class="tx-value tx-id" id="txId">—</span>
+        </div>
+        <div class="tx-row">
+          <span class="tx-label">Status</span>
+          <span class="tx-value" style="color:var(--green);font-weight:700;">✅ Completed</span>
+        </div>
+      </div>
+
+      <!-- Next steps -->
+      <div class="next-steps">
+        <h4>What happens next?</h4>
+        <div class="step">
+          <div class="step-icon">📧</div>
+          <div>
+            <strong>Confirm your email to receive your receipt</strong><br>
+            A receipt has been sent to your email address. Click the link to confirm delivery.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon">📱</div>
+          <div>
+            <strong>Download the PayVault app for faster payments</strong><br>
+            Save your payment details securely for next time.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon">🔔</div>
+          <div>
+            <strong>Track your order</strong><br>
+            Your item will be dispatched within 3–5 business days. You will receive updates via email.
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary">Return to Dashboard</button>
+      <button class="btn-secondary">📄 Download Reciept</button>
+
+      <div class="survey-bar">
+        <span>How was your payment experience today?</span>
+        <a href="#">Rate us ⭐⭐⭐⭐⭐</a>
+      </div>
+
+      <div class="fine-print">
+        This payment confirms your enrollment in PayVault Premium (R149/month). To cancel, visit account settings within 7 days. Your data has been securely processed and may be retained for up to 10 years per our data sharing agreement with affiliated financial partners.
+      </div>
+
+    </div>
+
+    <div class="card-footer">
+      Questions? <a href="#">Contect Support</a> · Copywright © 2024 PayVault Inc. · <a href="#">Privcay Policy</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const now = new Date();
+  document.getElementById('txDate').textContent = now.toLocaleString('en-ZA', {
+    day:'2-digit', month:'short', year:'numeric',
+    hour:'2-digit', minute:'2-digit'
+  });
+  const txId = 'PV-' + Math.random().toString(36).substring(2,7).toUpperCase() + '-' + Date.now().toString().slice(-6);
+  document.getElementById('txId').textContent = txId;
+
+  // Countdown timer
+  let seconds = 4 * 60 + 59;
+  const timerEl = document.getElementById('timer');
+  setInterval(() => {
+    if (seconds > 0) seconds--;
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    timerEl.textContent = `${m}:${s}`;
+    if (seconds < 60) timerEl.style.color = '#8e0000';
+  }, 1000);
+</script>
+
+</body>
+</html>
